@@ -1,5 +1,5 @@
 {
-  "name": "@vercel-test-nx-node-ts/source",
+  "name": "@app/source",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
