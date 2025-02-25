@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpCode } from '@nestjs/common';
 import { SupplyService } from './supply.service';
 
 @Controller('supply')
@@ -8,5 +8,11 @@ export class SupplyController {
   @Get('ping')
   ping() {
     return this.supplyService.ping();
+  }
+
+  @Get('summary')
+  @HttpCode(200)
+  summary() {
+    return this.supplyService.summary();
   }
 }
