@@ -15,10 +15,21 @@ export class SupplyService {
   }
 
   // Issue #1 & #2 - Vérifie si un produit existe dans le catalogue
-  private async isProductInCatalog(productId: string): Promise<boolean> {
-    const response = await fetch('http://microservices.tp.rjqu8633.odns.fr/api/products');
-    const catalog: ProductDto[] = await response.json();
-    return catalog.some((product) => product.ean === productId);
+  private async isProductInCatalog(productEan: string): Promise<boolean> {
+    const catalog: ProductDto[]= await this.getAllProducts();
+    return catalog.some((product: ProductDto): boolean => product.ean === productEan);
+  }
+
+  private async getAllProducts(): Promise<ProductDto[]> {
+    const response: Response = await fetch(
+      'http://microservices.tp.rjqu8633.odns.fr/api/products',
+    );
+    return response.json();
+  }
+
+  private async getProductId(product: SupplyProductDto): Promise<string> {
+    const products: ProductDto[] = await this.getAllProducts();
+    return products.find((p: ProductDto): boolean => p.ean === product.ean && p.name === product.name)._id;
   }
 
   // Issue #2 - Création d'un produit dans le catalogue
@@ -28,23 +39,21 @@ export class SupplyService {
       name: product.name,
       description: product.description,
       categories: [],
-      price: product.purchasePricePerUnit
+      price: product.purchasePricePerUnit,
     };
     await fetch('http://microservices.tp.rjqu8633.odns.fr/api/products', {
       method: 'POST',
       body: JSON.stringify(newProduct),
       headers: {
         'Content-Type': 'application/json',
-      }
+      },
     });
-    //TODO: à voir
   }
 
   // Issue #1 - Gestion approvisionnement
   async handleSupply(input: SupplyInputDto): Promise<void> {
     for (const product of input.products) {
       const productExists = await this.isProductInCatalog(product.ean);
-      // On vérifie si le produit existe dans le catalogue
       if (!productExists) {
         await this.createProduct(product);
       }
@@ -52,21 +61,14 @@ export class SupplyService {
         status: StockMovementType.Supply,
         quantity: product.quantity,
       };
+      const productId = await this.getProductId(product);
       // Envoi l'incrément de stock
-      await fetch(`http://donoma.ddns.net/api/stock/${product.ean}/movement`, {
+      await fetch(`http://donoma.ddns.net/api/stock/${productId}/movement`, {
         method: 'POST',
         body: JSON.stringify(stockMovement),
         headers: {
           'Content-Type': 'application/json',
-        }
-      });
-      // Confirme la bonne réception de la commande
-      await fetch(`http://donoma.ddns.net//api/supply-request`, {
-        method: 'POST',
-        body: JSON.stringify(stockMovement),
-        headers: {
-          'Content-Type': 'application/json',
-        }
+        },
       });
     }
     this.stockSupplyEntityToDB(input);
@@ -78,7 +80,7 @@ export class SupplyService {
     supplyEntity.products = JSON.stringify(supplyInput.products);
     supplyEntity.totalPrice = supplyInput.products.reduce(
       (acc, product) => acc + product.purchasePricePerUnit * product.quantity,
-      0
+      0,
     );
     return supplyEntity;
   }
@@ -96,12 +98,12 @@ export class SupplyService {
         nbSupplies: summaries.length,
         totalNbProducts: summaries.reduce(
           (acc, summary) => acc + JSON.parse(summary.products).length,
-          0
+          0,
         ),
         totalPurchasePrice: summaries.reduce(
           (acc, summary) => acc + summary.totalPrice,
-          0
-        )
+          0,
+        ),
       };
       return summariesResume;
     } else {
@@ -111,23 +113,23 @@ export class SupplyService {
 
   async notifySuppliers(requiredSupplyDto: RequiredSupplyDto): Promise<void> {
     const productToSupply: ProductDto = await this.getProduct(
-      requiredSupplyDto.productId
+      requiredSupplyDto.productId,
     );
     const supplyRequest: SupplyRequestDto = {
-      ean: productToSupply.ean
+      ean: productToSupply.ean,
     };
     await fetch('http://microservices.tp.rjqu8633.odns.fr/api/supply-request', {
       method: 'POST',
       body: JSON.stringify(supplyRequest),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
   }
 
   async getProduct(productId: string): Promise<ProductDto> {
     const response = await fetch(
-      `http://microservices.tp.rjqu8633.odns.fr/api/products/${productId}`
+      `http://microservices.tp.rjqu8633.odns.fr/api/products/${productId}`,
     );
     return await response.json();
   }

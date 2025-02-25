@@ -4,7 +4,7 @@ import { RequiredSupplyDto, SupplyInputDto } from './dto/supply.dto';
 
 @Controller('supply')
 export class SupplyController {
-  constructor(private supplyService: SupplyService) {}
+  constructor(private readonly supplyService: SupplyService) {}
 
   @Get('ping')
   ping() {
@@ -13,7 +13,6 @@ export class SupplyController {
 
   @Post('supply-needed')
   @HttpCode(204)
-  // eslint-disable-next-line prettier/prettier
   async notifySuppliers(
     @Body() requiredSupplyDto: RequiredSupplyDto,
   ): Promise<void> {
