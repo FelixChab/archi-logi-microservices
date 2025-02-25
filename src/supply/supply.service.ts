@@ -68,10 +68,12 @@ export class SupplyService {
         stockMovement,
       );
     }
+    this.stockSupplyEntityToDB(input);
   }
 
   toSupplyEntity(supplyInput: SupplyInputDto): SupplyEntity {
     const supplyEntity = new SupplyEntity();
+    supplyEntity.id = supplyInput.supplyId;
     supplyEntity.products = JSON.stringify(supplyInput.products);
     supplyEntity.totalPrice = supplyInput.products.reduce(
       (acc, product) => acc + product.purchasePricePerUnit * product.quantity,
