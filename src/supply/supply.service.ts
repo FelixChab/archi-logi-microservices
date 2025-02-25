@@ -18,12 +18,13 @@ export class SupplyService {
   private async isProductInCatalog(productId: string): Promise<boolean> {
     const response = await fetch('http://microservices.tp.rjqu8633.odns.fr/api/products');
     const catalog: ProductDto[] = await response.json();
-    return catalog.some((product) => product.ean === productId);
+    return catalog.some((product) => product._id === productId);
   }
 
   // Issue #2 - Création d'un produit dans le catalogue
   private async createProduct(product: SupplyProductDto): Promise<void> {
     const newProduct: ProductDto = {
+      _id: "", // TODO: récupérer de dono
       ean: product.ean,
       name: product.name,
       description: product.description,
@@ -37,7 +38,6 @@ export class SupplyService {
         'Content-Type': 'application/json',
       }
     });
-    //TODO: à voir
   }
 
   // Issue #1 - Gestion approvisionnement
@@ -47,14 +47,14 @@ export class SupplyService {
       // On vérifie si le produit existe dans le catalogue
       if (!productExists) {
         await this.createProduct(product);
-      }
+      }   
       const stockMovement: StockMovementDto = {
         status: StockMovementType.Supply,
-        productId: product.ean,
+        productId: product.ean, // TODO: corriger
         quantity: product.quantity,
       };
       // Envoi l'incrément de stock
-      await fetch(`http://donoma.ddns.net/api/stock/${product.ean}/movement`, {
+      await fetch(`http://donoma.ddns.net/api/stock/${stockMovement.productId}/movement`, {
         method: 'POST',
         body: JSON.stringify(stockMovement),
         headers: {
