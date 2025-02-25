@@ -1,0 +1,27 @@
+[NX Daemon Server] - 2025-02-25T08:45:25.970Z - Started listening on: /var/folders/dj/pmdvss3n2dq9h0n9vwf5dtzw0000gn/T/dcef81c9043781be7e85/d.sock
+[NX Daemon Server] - 2025-02-25T08:45:25.973Z - [WATCHER]: Subscribed to changes within: /Users/felixchab/Documents/Git/archi-logi-microservices (native)
+[NX Daemon Server] - 2025-02-25T08:45:25.977Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-02-25T08:45:25.978Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2025-02-25T08:45:25.980Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-02-25T08:45:25.980Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2025-02-25T08:45:25.982Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2025-02-25T08:45:25.982Z - [REQUEST]: 
+[NX Daemon Server] - 2025-02-25T08:45:25.982Z - [REQUEST]: 
+[NX Daemon Server] - 2025-02-25T08:45:26.137Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2025-02-25T08:45:26.137Z - Time taken for 'total for creating and serializing project graph' 156.11349999904633ms
+[NX Daemon Server] - 2025-02-25T08:45:26.139Z - Done responding to the client project-graph
+[NX Daemon Server] - 2025-02-25T08:45:26.139Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 157. Response time: 2.
+[NX Daemon Server] - 2025-02-25T08:45:26.168Z - [REQUEST]: Responding to the client. handleHashTasks
+[NX Daemon Server] - 2025-02-25T08:45:26.168Z - Done responding to the client handleHashTasks
+[NX Daemon Server] - 2025-02-25T08:45:26.168Z - Handled HASH_TASKS. Handling time: 13. Response time: 0.
+[NX Daemon Server] - 2025-02-25T08:45:29.737Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-02-25T08:45:29.739Z - [WATCHER]: 2 file(s) created or restored, 0 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2025-02-25T08:45:29.840Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2025-02-25T08:45:29.840Z - [REQUEST]: dist/apps/referential/main.js,dist/apps/referential/assets/.gitkeep
+[NX Daemon Server] - 2025-02-25T08:45:29.840Z - [REQUEST]: 
+[NX Daemon Server] - 2025-02-25T08:45:29.873Z - Time taken for 'hash changed files from watcher' 0.25587500631809235ms
+[NX Daemon Server] - 2025-02-25T08:47:10.389Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-02-25T08:54:47.228Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-02-25T08:54:47.236Z - [WATCHER]: Stopping the watcher for /Users/felixchab/Documents/Git/archi-logi-microservices (sources)
+[NX Daemon Server] - 2025-02-25T08:54:47.236Z - [WATCHER]: Stopping the watcher for /Users/felixchab/Documents/Git/archi-logi-microservices (outputs)
+[NX Daemon Server] - 2025-02-25T08:54:47.236Z - Server stopped because: "Lock file changed"
