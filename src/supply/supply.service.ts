@@ -50,7 +50,6 @@ export class SupplyService {
       }
       const stockMovement: StockMovementDto = {
         status: StockMovementType.Supply,
-        productId: product.ean,
         quantity: product.quantity,
       };
       // Envoi l'incrément de stock

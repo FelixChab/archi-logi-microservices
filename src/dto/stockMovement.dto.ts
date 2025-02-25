@@ -1,5 +1,5 @@
 export interface StockMovementDto {
-  productId: string; // This ID is the ID inside the catalogue
+  //productId: string;
   quantity: number;
   status: StockMovementType;
 }
