@@ -28,7 +28,7 @@ export class SupplyService {
       name: product.name,
       description: product.description,
       categories: [],
-      price: product.purchasePricePerUnit,
+      price: product.purchasePricePerUnit
     };
     await fetch('http://microservices.tp.rjqu8633.odns.fr/api/products', {
       method: 'POST',
@@ -51,7 +51,7 @@ export class SupplyService {
       const stockMovement: StockMovementDto = {
         status: StockMovementType.Supply,
         productId: product.ean,
-        quantity: product.quantity,
+        quantity: product.quantity
       };
       // Envoi l'incrément de stock
       await fetch(`http://donoma.ddns.net/api/stock/${product.ean}/movement`, {
@@ -79,7 +79,7 @@ export class SupplyService {
     supplyEntity.products = JSON.stringify(supplyInput.products);
     supplyEntity.totalPrice = supplyInput.products.reduce(
       (acc, product) => acc + product.purchasePricePerUnit * product.quantity,
-      0,
+      0
     );
     return supplyEntity;
   }
@@ -92,18 +92,20 @@ export class SupplyService {
 
   async summary(): Promise<SupplySummaryDto> {
     const summaries = this.suppliesStock;
+    console.log(summaries);
     if (summaries) {
       const summariesResume: SupplySummaryDto = {
         nbSupplies: summaries.length,
         totalNbProducts: summaries.reduce(
           (acc, summary) => acc + JSON.parse(summary.products).length,
-          0,
+          0
         ),
         totalPurchasePrice: summaries.reduce(
           (acc, summary) => acc + summary.totalPrice,
-          0,
-        ),
+          0
+        )
       };
+      console.log(summariesResume);
       return summariesResume;
     } else {
       throw new HttpException('No supplies found', 404);
@@ -112,23 +114,23 @@ export class SupplyService {
 
   async notifySuppliers(requiredSupplyDto: RequiredSupplyDto): Promise<void> {
     const productToSupply: ProductDto = await this.getProduct(
-      requiredSupplyDto.productId,
+      requiredSupplyDto.productId
     );
     const supplyRequest: SupplyRequestDto = {
-      ean: productToSupply.ean,
+      ean: productToSupply.ean
     };
     await fetch('http://microservices.tp.rjqu8633.odns.fr/api/supply-request', {
       method: 'POST',
       body: JSON.stringify(supplyRequest),
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     });
   }
 
   async getProduct(productId: string): Promise<ProductDto> {
     const response = await fetch(
-      `http://microservices.tp.rjqu8633.odns.fr/api/products/${productId}`,
+      `http://microservices.tp.rjqu8633.odns.fr/api/products/${productId}`
     );
     return await response.json();
   }
