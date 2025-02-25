@@ -62,7 +62,7 @@ export class SupplyService {
         }
       });
       // Confirme la bonne réception de la commande
-      await fetch(`http://microservices.tp.rjqu8633.odns.fr/api/supply-request`, {
+      await fetch(`http://donoma.ddns.net//api/supply-request`, {
         method: 'POST',
         body: JSON.stringify(stockMovement),
         headers: {

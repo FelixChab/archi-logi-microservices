@@ -13,9 +13,8 @@ export class SupplyController {
 
   @Post('supply-needed')
   @HttpCode(204)
-  async notifySuppliers(
-    @Body() requiredSupplyDto: RequiredSupplyDto,
-  ): Promise<void> {
+  // eslint-disable-next-line prettier/prettier
+  async notifySuppliers(@Body() requiredSupplyDto: RequiredSupplyDto): Promise<void> {
     await this.supplyService.notifySuppliers(requiredSupplyDto);
   }
 
