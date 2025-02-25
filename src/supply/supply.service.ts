@@ -6,6 +6,7 @@ import { ProductDto } from '../dto/product.dto';
 import { firstValueFrom } from 'rxjs';
 import { SupplyInputDto, SupplyProductDto, SupplySummaryDto } from './dto/supply.dto';
 import { SupplyEntity } from './entities/supply.entity';
+import { RequiredSupplyDto, SupplyRequestDto } from './supply.dto';
 
 @Injectable()
 export class SupplyService {
@@ -98,5 +99,28 @@ export class SupplyService {
     } else {
       throw new HttpException('No supplies found', 404);
     }
+  }
+
+  async notifySuppliers(requiredSupplyDto: RequiredSupplyDto): Promise<void> {
+    const productToSupply: ProductDto = await this.getProduct(
+      requiredSupplyDto.productId,
+    );
+    const supplyRequest: SupplyRequestDto = {
+      ean: productToSupply.ean,
+    };
+    await fetch('http://microservices.tp.rjqu8633.odns.fr/api/supply-request', {
+      method: 'POST',
+      body: JSON.stringify(supplyRequest),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+
+  async getProduct(productId: string): Promise<ProductDto> {
+    const response = await fetch(
+      `http://microservices.tp.rjqu8633.odns.fr/api/products/${productId}`,
+    );
+    return await response.json();
   }
 }
