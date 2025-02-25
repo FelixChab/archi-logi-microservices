@@ -4,9 +4,14 @@ import { HttpService } from '@nestjs/axios';
 import { StockMovementDto, StockMovementType } from '../dto/stockMovement.dto';
 import { ProductDto } from '../dto/product.dto';
 import { firstValueFrom } from 'rxjs';
-import { SupplyInputDto, SupplyProductDto, SupplySummaryDto } from './dto/supply.dto';
+import {
+  RequiredSupplyDto,
+  SupplyInputDto,
+  SupplyProductDto,
+  SupplyRequestDto,
+  SupplySummaryDto
+} from './dto/supply.dto';
 import { SupplyEntity } from './entities/supply.entity';
-import { RequiredSupplyDto, SupplyRequestDto } from './supply.dto';
 
 @Injectable()
 export class SupplyService {

@@ -1,7 +1,6 @@
 import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { SupplyService } from './supply.service';
-import { SupplyInputDto } from './dto/supply.dto';
-import { RequiredSupplyDto } from './supply.dto';
+import { RequiredSupplyDto, SupplyInputDto } from './dto/supply.dto';
 
 @Controller('supply')
 export class SupplyController {
