@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { SupplyService } from './supply.service';
+import { SupplyInputDto } from './supply.dto';
 
 @Controller('supply')
 export class SupplyController {
@@ -8,5 +9,11 @@ export class SupplyController {
   @Get('ping')
   ping() {
     return this.supplyService.ping();
+  }
+
+  @Post('/api/supply')
+  @HttpCode(204)
+  async getSupplyStock(@Body() supplyInputDto: SupplyInputDto): Promise<void> {
+    await this.supplyService.handleSupply(supplyInputDto);
   }
 }
