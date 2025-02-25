@@ -1,23 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
 import { StockMovementDto, StockMovementType } from '../dto/stockMovement.dto';
 import { ProductDto } from '../dto/product.dto';
-import { firstValueFrom } from 'rxjs';
-import {
-  RequiredSupplyDto,
-  SupplyInputDto,
-  SupplyProductDto,
-  SupplyRequestDto,
-  SupplySummaryDto
-} from './dto/supply.dto';
+import { RequiredSupplyDto, SupplyInputDto, SupplyProductDto, SupplyRequestDto, SupplySummaryDto } from './dto/supply.dto';
 import { SupplyEntity } from './entities/supply.entity';
 
 @Injectable()
 export class SupplyService {
   suppliesStock: SupplyEntity[] = [];
-
-  constructor(private readonly httpService: HttpService) {}
 
   // Ping Pong
   ping(): string {
@@ -26,10 +16,9 @@ export class SupplyService {
 
   // Issue #1 & #2 - Vérifie si un produit existe dans le catalogue
   private async isProductInCatalog(productId: string): Promise<boolean> {
-    const catalog = await firstValueFrom(
-      this.httpService.get<ProductDto[]>(`/api/products`),
-    );
-    return catalog.data.some((product) => product.ean === productId);
+    const response = await fetch('http://microservices.tp.rjqu8633.odns.fr/api/products');
+    const catalog: ProductDto[] = await response.json();
+    return catalog.some((product) => product.ean === productId);
   }
 
   // Issue #2 - Création d'un produit dans le catalogue
@@ -41,7 +30,14 @@ export class SupplyService {
       categories: [],
       price: product.purchasePricePerUnit,
     };
-    await firstValueFrom(this.httpService.post(`/api/products`, newProduct));
+    await fetch('http://microservices.tp.rjqu8633.odns.fr/api/products', {
+      method: 'POST',
+      body: JSON.stringify(newProduct),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    //TODO: à voir
   }
 
   // Issue #1 - Gestion approvisionnement
@@ -58,15 +54,21 @@ export class SupplyService {
         quantity: product.quantity,
       };
       // Envoi l'incrément de stock
-      await this.httpService.post(
-        `/api/stock/${input.supplyId}/movement`,
-        stockMovement,
-      );
+      await fetch(`http://donoma.ddns.net/api/stock/${product.ean}/movement`, {
+        method: 'POST',
+        body: JSON.stringify(stockMovement),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
       // Confirme la bonne réception de la commande
-      await this.httpService.post(
-        `http://donoma.ddns.net/api/supply-request`,
-        stockMovement,
-      );
+      await fetch(`http://donoma.ddns.net//api/supply-request`, {
+        method: 'POST',
+        body: JSON.stringify(stockMovement),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
     }
     this.stockSupplyEntityToDB(input);
   }
