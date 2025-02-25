@@ -1,0 +1,21 @@
+<div class="api-check>">
+  <h1> API check </h1>
+  <table class='api-check-table'>
+    <thead>
+    <tr>
+      <td>API</td>
+      <td>Online ?</td>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let status of statuses'>
+        <td>
+          {{status.name}}
+        </td>
+        <td [ngClass]='status.status.toLowerCase()'>
+          {{status.status}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

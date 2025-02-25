@@ -1,0 +1,52 @@
+{
+  "name": "referential",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/referential/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/referential",
+        "main": "apps/referential/src/main.ts",
+        "tsConfig": "apps/referential/tsconfig.app.json",
+        "webpackConfig": "apps/referential/webpack.config.js",
+        "assets": ["apps/referential/src/assets"],
+        "target": "node",
+        "compiler": "tsc"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/referential/src/environments/environment.ts",
+              "with": "apps/referential/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "options": {
+        "buildTarget": "referential:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/referential"],
+      "options": {
+        "jestConfig": "apps/referential/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}

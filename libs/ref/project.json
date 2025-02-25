@@ -1,0 +1,20 @@
+{
+  "name": "ref",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ref/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/ref"],
+      "options": {
+        "jestConfig": "libs/ref/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}

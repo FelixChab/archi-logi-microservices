@@ -1,0 +1,15 @@
+.api-check-table {
+  border-collapse: collapse;
+  td {
+    border: 1px solid;
+    padding: 5px;
+
+    &.online {
+      background-color: lightgreen;
+    }
+
+    &.offline {
+      background-color: lightcoral;
+    }
+  }
+}

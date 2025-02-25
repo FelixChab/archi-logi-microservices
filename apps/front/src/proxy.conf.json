@@ -1,0 +1,44 @@
+{
+  "/api/referential/*": {
+    "target": "<url_referential>",
+    "secure": false,
+    "logLevel" : "debug",
+    "changeOrigin": true,
+    "pathRewrite": {"^/api/referential/" : ""}
+  },
+  "/api/shopping": {
+    "target": "<url_shopping>",
+    "secure": true,
+    "logLevel" : "debug",
+    "changeOrigin": true,
+    "pathRewrite": {"^/api/shopping/" : ""}
+  },
+  "/api/supply": {
+    "target": "<url_supply>",
+    "secure": true,
+    "logLevel" : "debug",
+    "changeOrigin": true,
+    "pathRewrite": {"^/api/supply/" : ""}
+  },
+  "/api/order": {
+    "target": "<url_order>",
+    "secure": true,
+    "logLevel" : "debug",
+    "changeOrigin": true,
+    "pathRewrite": {"^/api/order/" : ""}
+  },
+  "/api/stock": {
+    "target": "<url_stock>",
+    "secure": false,
+    "logLevel" : "debug",
+    "changeOrigin": true,
+    "pathRewrite": {"^/api/stock/" : ""}
+  },
+  "/api/delivery": {
+    "target": "<url_delivery>",
+    "secure": true,
+    "logLevel" : "debug",
+    "changeOrigin": true,
+    "pathRewrite": {"^/api/delivery/" : ""}
+  }
+}

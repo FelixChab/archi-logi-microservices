@@ -1,0 +1,22 @@
+<div class='supply-request-form'>
+<h1>Supply form</h1>
+  <form>
+    <div>
+      <input #ean="ngModel" [(ngModel)]="newItem.ean" name='newItemEan'
+             placeholder="Ean" required type="text">
+      <input #name="ngModel" [(ngModel)]="newItem.name" name='newItemName'
+             placeholder="Nom" required type="text">
+      <input #name="ngModel" [(ngModel)]="newItem.description" name='newItemDescription'
+             placeholder="Description" required type="text">
+      <input #name="ngModel" [(ngModel)]="newItem.purchasePricePerUnit" name='newItemPurchase'
+             placeholder="Price" required type="number">
+      <input #name="ngModel" [(ngModel)]="newItem.quantity" name='newItemQuantity'
+             placeholder="Quantity" required type="number">
+    </div>
+
+    <button (click)="addNewItem()" class="submit-btn"> Ajouter au supply </button>
+    <button (click)="sendToSupply()" class="submit-btn"> Envoyer le camion </button>
+
+    <div class='supply-to-send'> {{allItems | json}}</div>
+  </form>
+</div>
