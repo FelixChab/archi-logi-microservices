@@ -1,14 +1,10 @@
-import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { SupplyInputDto, SupplySummaryDto } from './dto/supply.dto';
-import { Repository } from 'typeorm';
 import { SupplyEntity } from './entities/supply.entity';
 
 @Injectable()
 export class SupplyService {
-  constructor(
-    @Inject('SUPPLY_REPOSITORY')
-    private supplyRepository: Repository<SupplyEntity>,
-  ) {}
+  suppliesStock: SupplyEntity[] = [];
 
   ping(): string {
     return 'pong';
@@ -24,13 +20,14 @@ export class SupplyService {
     return supplyEntity;
   }
 
-  stockSupplyEntityToDB(supplyInput: SupplyInputDto): Promise<SupplyEntity> {
+  stockSupplyEntityToDB(supplyInput: SupplyInputDto): SupplyEntity {
     const supplyEntity: SupplyEntity = this.toSupplyEntity(supplyInput);
-    return this.supplyRepository.save(supplyEntity);
+    this.suppliesStock.push(supplyEntity);
+    return supplyEntity;
   }
 
   async summary(): Promise<SupplySummaryDto> {
-    const summaries = await this.supplyRepository.find();
+    const summaries = this.suppliesStock;
     if (summaries) {
       const summariesResume: SupplySummaryDto = {
         nbSupplies: summaries.length,
