@@ -29,7 +29,7 @@ export class SupplyService {
 
   private async getProductId(product: SupplyProductDto): Promise<string> {
     const products: ProductDto[] = await this.getAllProducts();
-    return products.find((p: ProductDto): boolean => p.ean === product.ean && p.name === product.name)._id;
+    return products.find((p: ProductDto): boolean => p.ean === product.ean)._id;
   }
 
   // Issue #2 - Création d'un produit dans le catalogue
