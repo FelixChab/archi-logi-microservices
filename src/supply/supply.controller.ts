@@ -25,7 +25,7 @@ export class SupplyController {
     return this.supplyService.summary();
   }
 
-  @Post('/api/supply')
+  @Post()
   @HttpCode(204)
   getSupplyStock(@Body() supplyInputDto: SupplyInputDto) {
     return this.supplyService.handleSupply(supplyInputDto);
