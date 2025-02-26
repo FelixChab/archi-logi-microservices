@@ -6,11 +6,6 @@ import { RequiredSupplyDto, SupplyInputDto } from './dto/supply.dto';
 export class SupplyController {
   constructor(private readonly supplyService: SupplyService) {}
 
-  @Get('ping')
-  ping() {
-    return this.supplyService.ping();
-  }
-
   @Post('supply-needed')
   @HttpCode(204)
   async notifySuppliers(

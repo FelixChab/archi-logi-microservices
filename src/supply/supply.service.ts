@@ -9,11 +9,6 @@ import { SupplyEntity } from './entities/supply.entity';
 export class SupplyService {
   suppliesStock: SupplyEntity[] = [];
 
-  // Ping Pong
-  ping(): string {
-    return 'pong';
-  }
-
   // Issue #1 & #2 - Vérifie si un produit existe dans le catalogue
   private async isProductInCatalog(productEan: string): Promise<boolean> {
     const catalog: ProductDto[]= await this.getAllProducts();
