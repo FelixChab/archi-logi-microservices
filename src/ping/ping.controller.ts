@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 
 @Controller('ping')
-export class SupplyController {
+export class PingController {
   @Get()
   ping() {
     return 'pong';
