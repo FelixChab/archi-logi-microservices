@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { StockMovementDto, StockMovementType } from '../dto/stockMovement.dto';
 import { ProductDto } from '../dto/product.dto';
 import { RequiredSupplyDto, SupplyInputDto, SupplyProductDto, SupplyRequestDto, SupplySummaryDto } from './dto/supply.dto';
@@ -113,6 +113,7 @@ export class SupplyService {
     const supplyRequest: SupplyRequestDto = {
       ean: productToSupply.ean,
     };
+    Logger.log(`Supply request for product ${productToSupply.ean}`);
     await fetch('http://microservices.tp.rjqu8633.odns.fr/api/supply-request', {
       method: 'POST',
       body: JSON.stringify(supplyRequest),
